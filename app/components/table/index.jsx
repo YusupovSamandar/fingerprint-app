@@ -9,8 +9,7 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-
+import { useRouter } from 'next/navigation';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -23,54 +22,24 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: 0,
-  },
-}));
 
-const columns = [
-  { id: 'fullName', label: 'Full-Name' },
-  {
-    id: 'timeOfArrival',
-    label: 'Arrived At',
-    align: 'right',
-    format: (value) => value === 'none' ? <HighlightOffIcon /> : value,
-  },
-  {
-    id: 'timeOfDeparture',
-    label: 'Left At',
-    align: 'right',
-    format: (value) => value === 'none' ? <HighlightOffIcon /> : value,
-  }
-];
 
 function createData(fullName, timeOfArrival, timeOfDeparture) {
   return { fullName, timeOfArrival, timeOfDeparture };
 }
 
-const rows = [
-  createData('Samandar Yusupov', '09:00', '19:20'),
-  createData("Ikromjon Mo'ydinov", '12:30', 'none'),
-  createData('Abdurashid Abdullayev', '05:00', '23:04'),
-  createData('Xojakbar Abdujabborov', '16:00', 'none'),
-  createData('Jasur Erkinov', 'none', 'none'),
-];
-
-export default function StickyHeadTable() {
+export default function StickyHeadTable({ rows, columns }) {
+  const router = useRouter()
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
@@ -92,11 +61,12 @@ export default function StickyHeadTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            {(rowsPerPage > 0 ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : rows)
               .map((row, ind) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={ind}>
+                  <TableRow onClick={() => {
+                    router.push('/person/0sfref3094rfsd', { scroll: false })
+                  }} hover role="checkbox" tabIndex={-1} key={ind}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
