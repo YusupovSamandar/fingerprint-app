@@ -65,14 +65,14 @@ export default function StickyHeadTable({ rows, columns }) {
               .map((row, ind) => {
                 return (
                   <TableRow onClick={() => {
-                    router.push('/person/0sfref3094rfsd', { scroll: false })
+                    router.push(`/person/${row.fingerId}`, { scroll: false });
                   }} hover role="checkbox" tabIndex={-1} key={ind}>
                     {columns.map((column) => {
                       const value = row[column.id];
                       return (
                         <StyledTableCell key={column.id} align={column.align}>
-                          {(column.id === 'timeOfArrival' && value === 'none') ||
-                            (column.id === 'timeOfDeparture' && value === 'none')
+                          {(column.id === 'arrivalTime') ||
+                            (column.id === 'departureTime')
                             ? column.format(value)
                             : value}
                         </StyledTableCell>

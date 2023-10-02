@@ -1,4 +1,5 @@
 'use client'
+import "./globals.css";
 import { Inter } from 'next/font/google'
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
