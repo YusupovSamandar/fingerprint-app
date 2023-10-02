@@ -48,10 +48,10 @@ export default function CustomizedTables({ rows }) {
                     {rows.map((row) => (
                         <StyledTableRow key={row.date}>
                             <StyledTableCell component="th" scope="row">
-                                {row.date}
+                                {new Date(row.date).toLocaleDateString('en-US', { month: 'long', day: '2-digit' })}
                             </StyledTableCell>
-                            <StyledTableCell align="right">{row.timeOfArrival === 'none' ? <HighlightOffIcon /> : row.timeOfArrival}</StyledTableCell>
-                            <StyledTableCell align="right">{row.timeOfDeparture === 'none' ? <HighlightOffIcon /> : row.timeOfDeparture}</StyledTableCell>
+                            <StyledTableCell align="right">{new Date(row.arrivalTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</StyledTableCell>
+                            <StyledTableCell align="right">{row.departureTime ? new Date(row.departureTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : <HighlightOffIcon />}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>

@@ -9,6 +9,8 @@ import {
 import { Delete, Edit } from '@mui/icons-material';
 import axios from 'axios';
 import { API_URL } from '@/app/apiConfig';
+import Paper from '@mui/material/Paper';
+import Navbar from "@/app/components/navbar"
 
 const Example = () => {
     const [tableData, setTableData] = useState([]);
@@ -68,35 +70,41 @@ const Example = () => {
     useEffect(() => {
         (async function () {
             const { data: registeredStaffDT } = await axios.get(`${API_URL}/api/staff`);
-            setTableData(registeredStaffDT);
+            setTableData(registeredStaffDT.reverse());
         })();
     }, [])
 
     return (
         <>
-            <MaterialReactTable
-                columns={columns}
-                data={tableData}
-                editingMode="modal" //default
-                enableColumnOrdering
-                enableEditing
-                onEditingRowSave={handleSaveRowEdits}
-                onEditingRowCancel={handleCancelRowEdits}
-                renderRowActions={({ row, table }) => (
-                    <Box sx={{ display: 'flex', gap: '1rem' }}>
-                        <Tooltip arrow placement="left" title="Edit">
-                            <IconButton onClick={() => table.setEditingRow(row)}>
-                                <Edit />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip arrow placement="right" title="Delete">
-                            <IconButton color="error" onClick={() => handleDeleteRow(row)}>
-                                <Delete />
-                            </IconButton>
-                        </Tooltip>
-                    </Box>
-                )}
-            />
+            <Navbar headingName={"Staff Memberss"} />
+            <Paper elevation={3} style={{ margin: "10px" }}>
+                <MaterialReactTable
+                    columns={columns}
+                    data={tableData}
+                    editingMode="modal" //default
+                    enableColumnOrdering
+                    initialState={{
+                        columnVisibility: { fingerId: false }
+                    }}
+                    enableEditing
+                    onEditingRowSave={handleSaveRowEdits}
+                    onEditingRowCancel={handleCancelRowEdits}
+                    renderRowActions={({ row, table }) => (
+                        <Box sx={{ display: 'flex', gap: '1rem' }}>
+                            <Tooltip arrow placement="left" title="Edit">
+                                <IconButton onClick={() => table.setEditingRow(row)}>
+                                    <Edit />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip arrow placement="right" title="Delete">
+                                <IconButton color="error" onClick={() => handleDeleteRow(row)}>
+                                    <Delete />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    )}
+                />
+            </Paper>
         </>
     );
 };

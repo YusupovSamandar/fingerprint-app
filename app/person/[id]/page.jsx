@@ -1,39 +1,30 @@
-import React from 'react';
+"use client"
+import React, { useEffect, useState } from 'react';
 import Table from '@/app/components/personTable';
-
-const personData = [
-    {
-        date: "August 12",
-        timeOfArrival: "20:45",
-        timeOfDeparture: "none"
-    },
-    {
-        date: "August 13",
-        timeOfArrival: "21:45",
-        timeOfDeparture: "9:00"
-    },
-    {
-        date: "August 14",
-        timeOfArrival: "2:45",
-        timeOfDeparture: "15:00"
-    },
-    {
-        date: "August 15",
-        timeOfArrival: "4:00",
-        timeOfDeparture: "13:43"
-    },
-    {
-        date: "August 16",
-        timeOfArrival: "14:00",
-        timeOfDeparture: "none"
-    },
-]
+import Navbar from "@/app/components/navbar";
+import axios from 'axios';
+import { API_URL } from '@/app/apiConfig';
+"august 12"
 
 export default function page({ params }) {
-    const personID = params.id
+    const fingerID = params.id
+    const [personData, setPersonData] = useState([]);
+    useEffect(() => {
+        (async function () {
+            const { data } = await axios.get(`${API_URL}/api/attendance/staff/${fingerID}`);
+            setPersonData(data);
+        })();
+    }, []);
     return (
         <div>
-            <Table rows={personData} />
+            <Navbar headingName={"Samandar Yusupov"} />
+            <br />
+            {
+                personData.length > 0 ?
+                    <Table rows={personData} />
+                    : <h4 style={{ textAlign: "center" }} >no data to display</h4>
+            }
+
         </div>
     )
 }
